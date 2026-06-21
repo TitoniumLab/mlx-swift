@@ -194,9 +194,13 @@ void Gather::eval_gpu(const std::vector<array>& inputs, array& out) {
   compute_encoder.set_vector_bytes(axes_, 6);
 
   // Set index info
-  //
-  // We don't need to check for empty idx_shapes because gather has a
-  // idx_ndim == 0 specialization
+  if (idx_ndim == 0) {
+    // Match Scatter: bind dummy metadata so Metal validation does not see nil
+    // vectors for scalar index gathers.
+    idx_shapes.push_back(0);
+    idx_strides.push_back(0);
+    idx_contigs.push_back(false);
+  }
   compute_encoder.set_vector_bytes(idx_shapes, 7);
   compute_encoder.set_vector_bytes(idx_strides, 8);
   compute_encoder.set_vector_bytes(idx_contigs, 9);
