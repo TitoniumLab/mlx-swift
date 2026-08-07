@@ -56,7 +56,7 @@ MetalAllocator::MetalAllocator()
       .set_residency_set(residency_set_.mtl_residency_set());
   bool is_vm = std::get<std::string>(info.at("device_name")) ==
       "Apple Paravirtual device";
-  if (is_vm) {
+  if (is_vm || device_->architecture() == nullptr) {
     return;
   }
   auto heap_desc = MTL::HeapDescriptor::alloc()->init();
