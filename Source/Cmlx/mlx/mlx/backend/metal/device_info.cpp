@@ -23,7 +23,10 @@ device_info(int device_index) {
     auto pool = metal::new_scoped_memory_pool();
     auto raw_device = metal::device(mlx::core::Device::gpu).mtl_device();
     auto name = std::string(raw_device->name()->utf8String());
-    auto arch = std::string(raw_device->architecture()->name()->utf8String());
+    auto architecture = raw_device->architecture();
+    auto arch = architecture == nullptr
+        ? std::string("apple00g")
+        : std::string(architecture->name()->utf8String());
 
     size_t memsize = 0;
     size_t length = sizeof(memsize);
