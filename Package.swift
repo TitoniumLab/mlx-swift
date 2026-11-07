@@ -1,4 +1,4 @@
-// swift-tools-version: 6.1
+// swift-tools-version: 6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 // Copyright © 2024 Apple Inc.
 
@@ -249,7 +249,7 @@ let cmlx = Target.target(
         .headerSearchPath("json/single_include/nlohmann"),
         .headerSearchPath("fmt/include"),
         .define("MLX_VERSION", to: "\"0.32.0\""),
-        .unsafeFlags(["-Wno-shorten-64-to-32"]),
+        .disableWarning("shorten-64-to-32"),
     ],
     linkerSettings: linkerSettings,
     plugins: cudaBuildPlugins,
