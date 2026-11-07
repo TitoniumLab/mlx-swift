@@ -614,7 +614,10 @@ Device::Device() : device_(load_device()), residency_sets_(device_.get()) {
   default_library_ = NS::TransferPtr(load_default_library(device_.get()));
   arch_ = env::metal_gpu_arch();
   if (arch_.empty()) {
-    arch_ = std::string(device_->architecture()->name()->utf8String());
+    auto architecture = device_->architecture();
+    arch_ = architecture == nullptr
+        ? "apple00g"
+        : std::string(architecture->name()->utf8String());
   }
   int ag_tens = 0;
   int ag_ones = 0;

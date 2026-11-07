@@ -65,7 +65,7 @@ MetalAllocator::MetalAllocator(Device& d)
   max_pool_size_ = block_limit_;
   bool is_vm = std::get<std::string>(info.at("device_name")) ==
       "Apple Paravirtual device";
-  if (is_vm) {
+  if (is_vm || device_->architecture() == nullptr) {
     return;
   }
   auto pool = metal::new_scoped_memory_pool();
